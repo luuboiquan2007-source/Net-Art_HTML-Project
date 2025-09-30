@@ -1,0 +1,90 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <title>The Lost Student ID</title>
+  <style>
+    body { font-family: Arial, sans-serif; padding: 40px; background: #f4f4f4; }
+    .page { max-width: 1000px; margin: auto; background: #fff; padding: 20px; border-radius: 8px; }
+    h1 { font-size: 2.0em; }
+    .choices { margin-top: 20px; }
+    a { display: block; margin: 8px 0; text-decoration: none; color: #0066cc; }
+    a:hover { text-decoration: underline; }
+  </style>
+</head>
+<body>
+  <div class="page" id="content"></div>
+
+  <script>
+    const PAGES = {
+      intro: {
+        title: 'You wake up late<br><img src="giphy.gif" width="600">',
+        text: 'Your Student ID is missing. What do you do?',
+        choices: [
+          {id:'room', label:'Check your room'},
+          {id:'bus', label:'Run to the bus stop'}
+        ]
+      },
+      room: {
+        title: 'In your room',
+        text: 'You find your backpack but not the Student ID. <br><img src="spongebob-panic.gif" width="600">',
+        choices: [
+          {id:'livingroom', label:'Search the living room'},
+          {id:'brotherroom', label:"Check your brother's room"}
+        ]
+      },
+      bus: {
+        title: 'At the bus stop',
+        text: 'The bus is leaving. You\'re late.<br><img src="images.jpeg" width="400">',
+        choices: [
+          {id:'Uber', label:'Take Uber and pay $20'},
+          {id:'miss', label:'Chase the bus'}
+        ]
+      },
+      livingroom: {
+        title: 'In the living room',
+        text: 'No Student ID here. You are late.<br><img src="200.gif" width="600">',
+        choices: []
+      },
+      brotherroom: {
+        title: "Your brother's room",
+        text: 'You found your Student ID here. You made it!<br><img src="i-am-so-5954e8.jpg" width="400">',
+        choices: []
+      },
+      Uber: {
+        title: 'Take Uber and pay $20',
+        text: 'Uber is coming but you\'re still late! <br><img src="d2ed93195038fb0b6d5876b441635749.jpg" width="600">',
+        choices: []
+      },
+      miss: {
+        title: 'Too late',
+        text: 'You miss the bus and the exam. The end.<br><img src="a91809d7eccb29f5c078d2f87769a4da.jpg" width="600">',
+        choices: []
+      }
+    };
+
+    const content = document.getElementById('content');
+
+    function render(id){
+      const page = PAGES[id];
+      let html = `<h1>${page.title}</h1><p>${page.text}</p><div class='choices'>`;
+      if(page.choices.length === 0){
+        html += `<a href='#intro'>Restart</a>`;
+      } else {
+        page.choices.forEach(c => {
+          html += `<a href='#${c.id}'>${c.label}</a>`;
+        });
+      }
+      html += '</div>';
+      content.innerHTML = html;
+    }
+
+    window.addEventListener('hashchange', ()=>{
+      const id = location.hash.replace('#','') || 'intro';
+      render(id);
+    });
+
+    render('intro');
+  </script>
+</body>
+</html>
